@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = PROJECT_ROOT / "config" / "config.yml"
 
 
@@ -14,7 +14,7 @@ with open(CONFIG_PATH, "r", encoding="utf-8") as file:
 
 
 APP_CONFIG = CONFIG["app"]
-LLM_CONFIG = CONFIG["llm"]
+LLM_CONFIG = CONFIG["ollama"]
 EMBEDDING_CONFIG = CONFIG["embeddings"]
 VECTORSTORE_CONFIG = CONFIG["vectorstore"]
 RETRIEVAL_CONFIG = CONFIG["retrieval"]
