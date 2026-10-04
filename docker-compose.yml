@@ -11,7 +11,7 @@ services:
       POSTGRES_USER: rag
       POSTGRES_PASSWORD: ${PG_PASSWORD}
       POSTGRES_DB: rag
-    ports: ["127.0.0.1:5432:5432"]
+    ports: ["5432:5432"]
     volumes: ["pg_data:/var/lib/postgresql/data"]
-    
+
 volumes: { qdrant_data: {}, pg_data: {} }
