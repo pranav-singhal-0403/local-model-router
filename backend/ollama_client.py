@@ -10,6 +10,7 @@ from backend.config import (
 class OllamaClient:
 
     def __init__(self):
+
         self.base_url = OLLAMA_BASE_URL.rstrip("/")
         self.model = OLLAMA_MODEL
 
@@ -21,6 +22,10 @@ class OllamaClient:
         self.max_tokens = LLM_CONFIG.get(
             "max_tokens",
             2048,
+        )
+
+        self.client = httpx.AsyncClient(
+            timeout=180.0
         )
 
     async def generate(
@@ -38,36 +43,36 @@ class OllamaClient:
             },
         }
 
-        async with httpx.AsyncClient(
-            timeout=180.0
-        ) as client:
+        response = await self.client.post(
+            f"{self.base_url}/api/generate",
+            json=payload,
+        )
 
-            response = await client.post(
-                f"{self.base_url}/api/generate",
-                json=payload,
-            )
+        response.raise_for_status()
 
-            response.raise_for_status()
+        data = response.json()
 
-            data = response.json()
-
-        return data.get("response", "").strip()
+        return data.get(
+            "response",
+            "",
+        ).strip()
 
     async def health_check(self) -> bool:
 
         try:
 
-            async with httpx.AsyncClient(
-                timeout=5.0
-            ) as client:
+            response = await self.client.get(
+                f"{self.base_url}/api/tags"
+            )
 
-                response = await client.get(
-                    f"{self.base_url}/api/tags"
-                )
-
-                response.raise_for_status()
+            response.raise_for_status()
 
             return True
 
         except Exception:
+
             return False
+
+    async def close(self):
+
+        await self.client.aclose()

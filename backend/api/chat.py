@@ -1,9 +1,5 @@
-from fastapi import APIRouter, HTTPException
-
-from backend.answer_generator import AnswerGenerator
+from fastapi import APIRouter, HTTPException, Request
 from backend.models import ChatRequest, ChatResponse, Source
-from backend.retreiver_dense import DenseRetriever
-
 
 router = APIRouter(
     prefix="/chat",
@@ -13,30 +9,27 @@ router = APIRouter(
 
 @router.post("", response_model=ChatResponse)
 async def chat(
-    request: ChatRequest,
+    request: Request,
+    body: ChatRequest,
 ):
 
-    query = request.query.strip()
+    query = body.query.strip()
 
     if not query:
         raise HTTPException(
             status_code=400,
             detail="Query cannot be empty.",
         )
+    state = request.app.state.rag
+    top_k = body.top_k or 5
 
-    retriever = DenseRetriever()
-
-    top_k = request.top_k or 5
-
-    chunks = retriever.retrieve(
+    chunks = state.retriever.retrieve(
         query=query,
         top_k=top_k,
     )
 
-    generator = AnswerGenerator()
-
     answer, retrieved_chunks = (
-        await generator.generate(
+        await state.generator.generate(
             query=query,
             chunks=chunks,
         )

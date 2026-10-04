@@ -1,14 +1,17 @@
 from typing import List, Tuple
 
+from backend.models import RetrievedChunk
 from backend.ollama_client import OllamaClient
 from backend.prompt_builder import build_prompt
-from backend.models import RetrievedChunk
 
 
 class AnswerGenerator:
 
-    def __init__(self):
-        self.ollama = OllamaClient()
+    def __init__(
+        self,
+        ollama_client: OllamaClient,
+    ):
+        self.ollama = ollama_client
 
     async def generate(
         self,
@@ -19,8 +22,8 @@ class AnswerGenerator:
         if not chunks:
 
             return (
-                "I could not find relevant information in the "
-                "uploaded documents.",
+                "I could not find relevant information in "
+                "the uploaded documents.",
                 [],
             )
 

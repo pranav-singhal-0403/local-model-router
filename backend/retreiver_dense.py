@@ -7,9 +7,13 @@ from backend.qdrant_client import QdrantVectorStore
 
 class DenseRetriever:
 
-    def __init__(self):
-        self.embedder = DenseEmbedder()
-        self.vector_store = QdrantVectorStore()
+    def __init__(
+        self,
+        embedder: DenseEmbedder,
+        vector_store: QdrantVectorStore,
+    ):
+        self.embedder = embedder
+        self.vector_store = vector_store
 
     def retrieve(
         self,
@@ -17,7 +21,9 @@ class DenseRetriever:
         top_k: int = 5,
     ) -> List[RetrievedChunk]:
 
-        query_vector = self.embedder.encode_query(query)
+        query_vector = self.embedder.encode_query(
+            query
+        )
 
         results = self.vector_store.search(
             query_vector=query_vector,
@@ -38,7 +44,10 @@ class DenseRetriever:
                     page_number=payload["page_number"],
                     text=payload["text"],
                     score=float(result.score),
-                    metadata=payload.get("metadata", {}),
+                    metadata=payload.get(
+                        "metadata",
+                        {},
+                    ),
                 )
             )
 

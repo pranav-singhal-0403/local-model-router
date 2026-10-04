@@ -16,12 +16,13 @@ from backend.qdrant_client import QdrantVectorStore
 
 class IngestionPipeline:
 
-    def __init__(self):
-
-        self.embedder = DenseEmbedder()
-
-        self.vector_store = QdrantVectorStore()
-
+    def __init__(
+        self,
+        embedder: DenseEmbedder,
+        vector_store: QdrantVectorStore,
+    ):
+        self.embedder = embedder
+        self.vector_store = vector_store
         self.vector_store.create_collection(
             vector_size=self.embedder.dimension
         )

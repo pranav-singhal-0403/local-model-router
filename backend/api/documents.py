@@ -1,7 +1,7 @@
 from pathlib import Path
 from uuid import uuid4
 
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, File, HTTPException, UploadFile, Request
 
 from backend.config import DOCUMENTS_DIR
 from backend.ingestion_pipeline import IngestionPipeline
@@ -15,6 +15,7 @@ router = APIRouter(
 
 @router.post("/upload")
 async def upload_document(
+    request: Request,
     file: UploadFile = File(...),
 ):
 
@@ -23,7 +24,7 @@ async def upload_document(
             status_code=400,
             detail="No filename provided.",
         )
-
+    
     extension = Path(file.filename).suffix.lower()
 
     if extension != ".pdf":
@@ -44,9 +45,8 @@ async def upload_document(
 
         destination.write_bytes(content)
 
-        pipeline = IngestionPipeline()
-
-        result = pipeline.ingest_pdf(
+        state = request.app.state.rag
+        result = state.ingestion.ingest_pdf(
             destination
         )
 
