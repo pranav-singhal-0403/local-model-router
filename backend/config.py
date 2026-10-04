@@ -21,7 +21,7 @@ RETRIEVAL_CONFIG = CONFIG["retrieval"]
 CHUNKING_CONFIG = CONFIG["chunking"]
 INGESTION_CONFIG = CONFIG["ingestion"]
 PATH_CONFIG = CONFIG["paths"]
-
+PROMPT=CONFIG["prompts"] 
 
 OLLAMA_BASE_URL = os.getenv(
     "OLLAMA_BASE_URL",
@@ -56,3 +56,5 @@ EXTRACTED_DIR = PROJECT_ROOT / PATH_CONFIG["extracted"]
 
 DOCUMENTS_DIR.mkdir(parents=True, exist_ok=True)
 EXTRACTED_DIR.mkdir(parents=True, exist_ok=True)
+
+SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT",PROMPT["system_prompt"])
