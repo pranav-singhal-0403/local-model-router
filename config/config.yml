@@ -1,0 +1,39 @@
+app:
+  name: rag-router
+  environment: development
+  host: 0.0.0.0
+  port: 8000
+
+ollama:
+  provider: ollama
+  model: gemma3:4b
+  base_url: http://localhost:11434
+  temperature: 0.1
+  max_tokens: 2048
+
+embeddings:
+  provider: sentence-transformers
+  model: BAAI/bge-small-en-v1.5
+  dimension: 384
+
+vectorstore:
+  provider: qdrant
+  host: localhost
+  port: 6333
+  collection_name: rag_documents
+
+retrieval:
+  top_k: 5
+  similarity_threshold: 0.2
+
+chunking:
+  target_tokens: 500
+  overlap_tokens: 75
+
+ingestion:
+  supported_extensions:
+    - .pdf
+
+paths:
+  documents: data/documents
+  extracted: data/extracted
