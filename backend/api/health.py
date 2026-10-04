@@ -1,7 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 
-from backend.ollama_client import OllamaClient
-from backend.qdrant_client import QdrantVectorStore
+from backend.config import EMBEDDING_CONFIG
 
 
 router = APIRouter(
@@ -11,15 +10,17 @@ router = APIRouter(
 
 
 @router.get("")
-async def health_check():
+async def health_check(request: Request):
 
-    ollama = OllamaClient()
-    qdrant = QdrantVectorStore()
-
-    ollama_status = await ollama.health_check()
+    state = request.app.state.rag
 
     try:
-        qdrant_status = qdrant.collection_exists()
+        ollama_status = await state.ollama.health_check()
+    except Exception:
+        ollama_status = False
+
+    try:
+        qdrant_status = state.qdrant.collection_exists()
     except Exception:
         qdrant_status = False
 
@@ -28,5 +29,10 @@ async def health_check():
         "services": {
             "ollama": ollama_status,
             "qdrant": qdrant_status,
+        },
+        "models": {
+            "llm": state.ollama.model,
+            "embedding": EMBEDDING_CONFIG.get("model"),
+            "embedding_dimension": state.embedder.dimension,
         },
     }
