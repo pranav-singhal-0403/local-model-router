@@ -1,11 +1,11 @@
 from pathlib import Path
 from typing import List
 
-import fitz
+import pymupdf
 
 
 def parse_pdf(pdf_path: Path) -> List[dict]:
-    document = fitz.open(pdf_path)
+    document = pymupdf.open(pdf_path)
 
     pages = []
 

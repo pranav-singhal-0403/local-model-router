@@ -6,13 +6,13 @@ class DenseEmbedder:
     def __init__(self):
         model_name = EMBEDDING_CONFIG["model"]
         self.model = SentenceTransformer(model_name)
-        self.dimension = self.model.get_sentence_embedding_dimension()
+        self.dimension = self.model.get_embedding_dimension()
 
     def encode(self,texts: List[str],) -> List[List[float]]:
         embeddings = self.model.encode(
             texts,
             normalize_embeddings=True,
-            show_progress_bar=False,
+            show_progress_bar=True,
         )
 
         return embeddings.tolist()
@@ -21,7 +21,7 @@ class DenseEmbedder:
         embedding = self.model.encode(
             query,
             normalize_embeddings=True,
-            show_progress_bar=False,
+            show_progress_bar=True,
         )
 
         return embedding.tolist()
