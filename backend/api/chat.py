@@ -1,5 +1,5 @@
 import time
-
+from uuid import UUID
 from fastapi import APIRouter, HTTPException, Request
 
 from backend.models import (
@@ -32,6 +32,31 @@ async def chat(
         raise HTTPException(
             status_code=400,
             detail="Query cannot be empty.",
+        )
+    conversation_id = body.conversation_id
+    chat_history = request.app.state.chat_history
+
+    if conversation_id:
+        try:
+            UUID(conversation_id)
+        except ValueError:
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid conversation ID.",
+            )
+
+        existing_messages = await chat_history.get_messages(conversation_id)
+
+        if existing_messages is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Conversation not found.",
+            )
+
+        await chat_history.add_message(
+            conversation_id=conversation_id,
+            role="user",
+            content=query,
         )
 
     state = request.app.state.rag
@@ -76,6 +101,21 @@ async def chat(
         for chunk in retrieved_chunks
     ]
 
+    latency = {
+        "retrieval_ms": round(retrieval_ms, 2),
+        "generation_ms": round(generation_ms, 2),
+        "total_ms": round(total_ms, 2),
+    }
+
+    if conversation_id:
+        await chat_history.add_message(
+            conversation_id=conversation_id,
+            role="assistant",
+            content=answer,
+            sources=[source.model_dump() for source in sources],
+            latency=latency,
+        )
+        
     print(
         f"[CHAT] "
         f"retrieval={retrieval_ms:.2f}ms "
@@ -87,9 +127,5 @@ async def chat(
     return ChatResponse(
         answer=answer,
         sources=sources,
-        latency={
-            "retrieval_ms": round(retrieval_ms, 2),
-            "generation_ms": round(generation_ms, 2),
-            "total_ms": round(total_ms, 2),
-        },
+        latency=latency,
     )

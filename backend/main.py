@@ -11,7 +11,9 @@ from backend.api.health import (
     router as health_router,
 )
 from backend.app_state import create_app_state
-
+from backend.database import Database
+from backend.chat_history import ChatHistory
+from backend.api.history import router as history_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -21,19 +23,29 @@ async def lifespan(app: FastAPI):
     )
 
     app.state.rag = create_app_state()
+    database = Database()
+    await database.connect()
+
+    app.state.database = database
+    app.state.chat_history = ChatHistory(database)
 
     print(
         "[STARTUP] RAG components initialized."
     )
 
-    yield
+    try:
+        yield
+    finally:
+        await database.close()
 
-    print(
-        "[SHUTDOWN] Releasing RAG components..."
-    )
-    if app.state.rag:
-        await app.state.rag.ollama.close()
-    app.state.rag = None
+        if app.state.rag:
+            await app.state.rag.ollama.close()
+
+        app.state.rag = None
+        app.state.database = None
+        app.state.chat_history = None
+
+        print("[SHUTDOWN] Resources released.")
 
 
 app = FastAPI(
@@ -66,6 +78,9 @@ app.include_router(
     chat_router
 )
 
+app.include_router(
+    history_router
+)
 
 @app.get("/")
 async def root():
