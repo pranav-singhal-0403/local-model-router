@@ -1,55 +1,108 @@
+
+import { useState } from "react";
 import ChatWindow from "./components/ChatWindow";
-import UploadPanel from "./components/UploadPanel";
+import DocumentLibrary from "./components/DocuemntLibrary";
 import "./App.css";
 
 function App() {
+  const [activeTab, setActiveTab] = useState("chat");
+  const [pageKey, setPageKey] = useState(0);
+
+  function navigate(tab) {
+    if (tab === activeTab) return;
+
+    setActiveTab(tab);
+    setPageKey((current) => current + 1);
+  }
+
   return (
-    <div className="app">
-      <header className="header">
-        <div className="brand">
-          <div className="brand-icon">R</div>
-          <div>
-            <h1>Local Model Router</h1>
-            <p>Private, document-grounded AI</p>
-          </div>
-        </div>
+    <div className="workspace">
+      <aside className="sidebar">
+        <button
+          className="workspace-brand"
+          onClick={() => navigate("chat")}
+          aria-label="Go to chat"
+        >
+          <span className="brand-mark">R</span>
+          <span>Local Model Router</span>
+        </button>
 
-        <div className="status">
-          <span className="status-dot" />
-          Local AI
-        </div>
-      </header>
+        <div className="sidebar-label">WORKSPACE</div>
 
-      <main className="main">
-        <section className="welcome">
-          <h2>Your documents. Your AI.</h2>
-          <p>
-            Upload a PDF and ask questions. Answers are generated
-            locally using Ollama and grounded in your documents.
-          </p>
-        </section>
+        <nav className="sidebar-nav">
+          <button
+            className={`nav-item ${activeTab === "chat" ? "active" : ""}`}
+            onClick={() => navigate("chat")}
+          >
+            <span className="nav-icon">◌</span>
+            Chat
+          </button>
 
-        <section className="upload-section">
-          <h3>Knowledge base</h3>
-          <UploadPanel />
-        </section>
+          <button
+            className={`nav-item ${
+              activeTab === "documents" ? "active" : ""
+            }`}
+            onClick={() => navigate("documents")}
+          >
+            <span className="nav-icon">▤</span>
+            Documents
+          </button>
+        </nav>
 
-        <section className="chat-section">
-          <div className="section-heading">
+        <div className="sidebar-bottom">
+          <div className="local-indicator">
+            <span className="status-dot" />
             <div>
-              <h3>Document assistant</h3>
-              <p>Ask questions about indexed documents</p>
+              <strong>Local environment</strong>
+              <span>Ollama · Qdrant</span>
             </div>
-            <span className="model-badge">gemma3:4b</span>
           </div>
 
-          <ChatWindow />
+          <div className="sidebar-version">Local Model Router · v0.1.0</div>
+        </div>
+      </aside>
+
+      <main className="workspace-main">
+        <header className="topbar">
+          <div className="breadcrumb">
+            Workspace <span>/</span>{" "}
+            {activeTab === "chat" ? "Chat" : "Documents"}
+          </div>
+
+          <div className="model-indicator">
+            <span className="status-dot" />
+            gemma3:4b
+          </div>
+        </header>
+
+        <div className="mobile-tabs">
+          <button
+            className={activeTab === "chat" ? "active" : ""}
+            onClick={() => navigate("chat")}
+          >
+            Chat
+          </button>
+          <button
+            className={activeTab === "documents" ? "active" : ""}
+            onClick={() => navigate("documents")}
+          >
+            Documents
+          </button>
+        </div>
+
+        <section
+          key={pageKey}
+          className={`page-content ${
+            activeTab === "chat" ? "chat-page" : "documents-page"
+          }`}
+        >
+          {activeTab === "chat" ? (
+            <ChatWindow />
+          ) : (
+            <DocumentLibrary />
+          )}
         </section>
       </main>
-
-      <footer className="footer">
-        Local Model Router · Powered by FastAPI, Qdrant and Ollama
-      </footer>
     </div>
   );
 }
