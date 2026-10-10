@@ -75,8 +75,8 @@ class IngestionPipeline:
                     metadata={
                         "source": pdf_path.name,
                         "page": page["page_number"],
-                        "document_id": chunk.document_id,
-                        "document_name": chunk.document_name,
+                        "document_id": document_id,
+                        "document_name": document_name,
                         "stored_filename": pdf_path.name,
                     },
                 )
@@ -96,11 +96,7 @@ class IngestionPipeline:
 
         points = []
 
-        for chunk, embedding in zip(
-            chunks,
-            embeddings,
-        ):
-
+        for chunk, embedding in zip(chunks, embeddings):
             points.append(
                 PointStruct(
                     id=chunk.chunk_id,
@@ -109,6 +105,7 @@ class IngestionPipeline:
                         "chunk_id": chunk.chunk_id,
                         "document_id": chunk.document_id,
                         "document_name": chunk.document_name,
+                        "stored_filename": pdf_path.name,
                         "page_number": chunk.page_number,
                         "chunk_index": chunk.chunk_index,
                         "text": chunk.text,
