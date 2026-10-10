@@ -1,9 +1,8 @@
+
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8000";
-
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: "http://localhost:8000",
 });
 
 export async function sendChatMessage(query, topK = 5) {
@@ -17,7 +16,6 @@ export async function sendChatMessage(query, topK = 5) {
 
 export async function uploadDocument(file) {
   const formData = new FormData();
-
   formData.append("file", file);
 
   const response = await api.post(
@@ -28,8 +26,20 @@ export async function uploadDocument(file) {
   return response.data;
 }
 
+export async function getDocuments() {
+  const response = await api.get("/documents");
+  return response.data;
+}
+
+export async function deleteDocument(documentId) {
+  const response = await api.delete(
+    `/documents/${encodeURIComponent(documentId)}`
+  );
+
+  return response.data;
+}
+
 export async function getHealth() {
   const response = await api.get("/health");
-
   return response.data;
 }
