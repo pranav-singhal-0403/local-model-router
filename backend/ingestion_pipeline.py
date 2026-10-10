@@ -30,10 +30,11 @@ class IngestionPipeline:
     def ingest_pdf(
         self,
         pdf_path: Path,
+        display_name: str | None = None,
     ):
 
         document_id = str(uuid4())
-
+        document_name = display_name or pdf_path.name
         pages = parse_pdf(pdf_path)
 
         chunks = []
@@ -67,13 +68,16 @@ class IngestionPipeline:
                 chunk = DocumentChunk(
                     chunk_id=str(uuid4()),
                     document_id=document_id,
-                    document_name=pdf_path.name,
+                    document_name=document_name,
                     page_number=page["page_number"],
                     chunk_index=chunk_index,
                     text=chunk_text,
                     metadata={
                         "source": pdf_path.name,
                         "page": page["page_number"],
+                        "document_id": chunk.document_id,
+                        "document_name": chunk.document_name,
+                        "stored_filename": pdf_path.name,
                     },
                 )
 
@@ -117,7 +121,8 @@ class IngestionPipeline:
 
         return {
             "document_id": document_id,
-            "document_name": pdf_path.name,
+            "document_name": document_name,
+            "stored_filename": pdf_path.name,
             "pages": len(pages),
             "chunks": len(chunks),
         }
