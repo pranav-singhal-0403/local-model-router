@@ -183,3 +183,5 @@ cython_debug/
 .vscode/
 data/documents/*
 data/extracted/*
+
+frontend/node_modules/*
