@@ -14,3 +14,4 @@ torch
 qdrant-client
 
 httpx
+asyncpg

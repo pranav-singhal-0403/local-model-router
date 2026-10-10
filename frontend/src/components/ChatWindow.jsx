@@ -1,13 +1,66 @@
-
-import { useState } from "react";
-import { sendChatMessage } from "../services/api";
+import { useEffect, useRef, useState } from "react";
+import {
+  sendChatMessage,
+  createConversation,
+  getConversationMessages,
+} from "../services/api";
 import Message from "./Message";
 import SourceCard from "./SourceCard";
 
-function ChatWindow() {
+function ChatWindow({
+  conversationId,
+  onConversationUpdated,
+  onConversationCreated,
+}) {
   const [messages, setMessages] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [historyLoading, setHistoryLoading] = useState(false);
+  const [error, setError] = useState("");
+  const requestId = useRef(0);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    const currentRequest = ++requestId.current;
+
+    async function loadMessages() {
+      setMessages([]);
+      setError("");
+
+      if (!conversationId) {
+        setHistoryLoading(false);
+        return;
+      }
+
+      setHistoryLoading(true);
+
+      try {
+        const result = await getConversationMessages(conversationId);
+
+        if (requestId.current === currentRequest) {
+          setMessages(result.messages || []);
+        }
+      } catch {
+        if (requestId.current === currentRequest) {
+          setError("Unable to load this conversation's messages.");
+        }
+      } finally {
+        if (requestId.current === currentRequest) {
+          setHistoryLoading(false);
+        }
+      }
+    }
+
+    loadMessages();
+
+    return () => {
+      requestId.current += 1;
+    };
+  }, [conversationId]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -16,36 +69,47 @@ function ChatWindow() {
 
     if (!trimmedQuery || loading) return;
 
+    setQuery("");
+    setLoading(true);
+    setError("");
+
+    let currentConversationId = conversationId;
+
     setMessages((current) => [
       ...current,
       { role: "user", content: trimmedQuery },
     ]);
 
-    setQuery("");
-    setLoading(true);
-
     try {
-      const result = await sendChatMessage(trimmedQuery);
+      if (!currentConversationId) {
+        const conversation = await createConversation();
+        currentConversationId = conversation.id;
+        onConversationCreated?.(conversation);
+      }
+
+      const result = await sendChatMessage(
+        trimmedQuery,
+        5,
+        currentConversationId
+      );
 
       setMessages((current) => [
         ...current,
         {
           role: "assistant",
           content: result.answer,
-          sources: result.sources,
-          latency: result.latency,
+          sources: result.sources || [],
+          latency: result.latency || null,
         },
       ]);
-    } catch (error) {
-      setMessages((current) => [
-        ...current,
-        {
-          role: "assistant",
-          content:
-            error.response?.data?.detail ||
-            "Something went wrong while processing your query.",
-        },
-      ]);
+
+      onConversationUpdated?.();
+    } catch (requestError) {
+      setError(
+        requestError.response?.data?.detail ||
+          requestError.message ||
+          "Something went wrong while processing your query."
+      );
     } finally {
       setLoading(false);
     }
@@ -54,7 +118,11 @@ function ChatWindow() {
   return (
     <div className="chat-window">
       <div className="messages">
-        {messages.length === 0 && (
+        {historyLoading && (
+          <div className="loading">Loading conversation...</div>
+        )}
+
+        {!historyLoading && messages.length === 0 && (
           <div className="empty-state">
             <span>What would you like to explore?</span>
             <span>Ask a question about your indexed documents.</span>
@@ -62,29 +130,25 @@ function ChatWindow() {
         )}
 
         {messages.map((message, index) => (
-          <div className="message-container" key={index}>
-            <Message
-              role={message.role}
-              content={message.content}
-            />
+          <div className="message-container" key={message.id || index}>
+            <Message role={message.role} content={message.content} />
 
-            {message.role === "assistant" &&
-              message.sources?.length > 0 && (
-                <div className="sources">
-                  <div className="sources-title">
-                    Sources from your documents
-                  </div>
-
-                  {message.sources.map((source) => (
-                    <SourceCard
-                      key={source.chunk_id}
-                      source={source}
-                    />
-                  ))}
+            {message.role === "assistant" && message.sources?.length > 0 && (
+              <div className="sources">
+                <div className="sources-title">
+                  Sources from your documents
                 </div>
-              )}
 
-            {message.latency && (
+                {message.sources.map((source, sourceIndex) => (
+                  <SourceCard
+                    key={source.chunk_id || sourceIndex}
+                    source={source}
+                  />
+                ))}
+              </div>
+            )}
+
+            {message.role === "assistant" && message.latency && (
               <div className="latency">
                 Retrieval {message.latency.retrieval_ms} ms
                 {" · "}
@@ -96,11 +160,11 @@ function ChatWindow() {
           </div>
         ))}
 
-        {loading && (
-          <div className="loading">
-            Preparing your answer…
-          </div>
-        )}
+        {loading && <div className="loading">Preparing your answer…</div>}
+
+        {error && <div className="chat-error">{error}</div>}
+
+        <div ref={messagesEndRef} />
       </div>
 
       <form className="chat-input" onSubmit={handleSubmit}>
@@ -108,13 +172,13 @@ function ChatWindow() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Message your document assistant..."
-          disabled={loading}
+          disabled={loading || historyLoading}
           aria-label="Message your document assistant"
         />
 
         <button
           type="submit"
-          disabled={loading || !query.trim()}
+          disabled={loading || historyLoading || !query.trim()}
         >
           {loading ? "Working…" : "Send"}
         </button>
