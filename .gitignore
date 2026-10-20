@@ -185,3 +185,5 @@ data/documents/*
 data/extracted/*
 
 frontend/node_modules/*
+
+utils/evaluation_results.json
