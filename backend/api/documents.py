@@ -67,7 +67,7 @@ async def upload_document(
             destination,
             display_name=original_name,
         )
-
+        state.retriever.refresh_index()
         return {
             "status": "success",
             "message": "Document uploaded and indexed.",
@@ -125,6 +125,7 @@ async def delete_document(
             )
 
         state.qdrant.delete_document(document_id)
+        state.retriever.refresh_index()
 
         file_path = DOCUMENTS_DIR / stored_filename
 

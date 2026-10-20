@@ -1,13 +1,12 @@
+
 from pathlib import Path
 from uuid import uuid4
 
-from qdrant_client.models import PointStruct
+from qdrant_client.models import PointStruct, SparseVector
 
-from backend.config import (
-    CHUNKING_CONFIG,
-)
-
+from backend.config import CHUNKING_CONFIG
 from backend.embeddings_dense import DenseEmbedder
+from backend.embeddings_splade import SpladeEmbedder
 from backend.chunker import split_into_chunks
 from backend.pdf_parser import parse_pdf
 from backend.models import DocumentChunk
@@ -15,14 +14,15 @@ from backend.qdrant_client import QdrantVectorStore
 
 
 class IngestionPipeline:
-
     def __init__(
         self,
         embedder: DenseEmbedder,
         vector_store: QdrantVectorStore,
+        splade_embedder: SpladeEmbedder,
     ):
         self.embedder = embedder
         self.vector_store = vector_store
+        self.splade_embedder = splade_embedder
         self.vector_store.create_collection(
             vector_size=self.embedder.dimension
         )
@@ -32,7 +32,6 @@ class IngestionPipeline:
         pdf_path: Path,
         display_name: str | None = None,
     ):
-
         document_id = str(uuid4())
         document_name = display_name or pdf_path.name
         pages = parse_pdf(pdf_path)
@@ -41,22 +40,17 @@ class IngestionPipeline:
 
         target_words = max(
             1,
-            int(
-                CHUNKING_CONFIG["target_tokens"] * 0.75
-            ),
+            int(CHUNKING_CONFIG["target_tokens"] * 0.75),
         )
 
         overlap_words = max(
             1,
-            int(
-                CHUNKING_CONFIG["overlap_tokens"] * 0.75
-            ),
+            int(CHUNKING_CONFIG["overlap_tokens"] * 0.75),
         )
 
         chunk_index = 0
 
         for page in pages:
-
             page_chunks = split_into_chunks(
                 page["text"],
                 target_words=target_words,
@@ -64,7 +58,6 @@ class IngestionPipeline:
             )
 
             for chunk_text in page_chunks:
-
                 chunk = DocumentChunk(
                     chunk_id=str(uuid4()),
                     document_id=document_id,
@@ -82,25 +75,38 @@ class IngestionPipeline:
                 )
 
                 chunks.append(chunk)
-
                 chunk_index += 1
 
         if not chunks:
-            raise ValueError(
-                "No text could be extracted from the PDF."
-            )
+            raise ValueError("No text could be extracted from the PDF.")
 
-        embeddings = self.embedder.encode(
+        dense_embeddings = self.embedder.encode(
+            [chunk.text for chunk in chunks]
+        )
+
+        sparse_embeddings = self.splade_embedder.encode(
             [chunk.text for chunk in chunks]
         )
 
         points = []
 
-        for chunk, embedding in zip(chunks, embeddings):
+        for chunk, dense_embedding, sparse_embedding in zip(
+            chunks,
+            dense_embeddings,
+            sparse_embeddings,
+        ):
+            indices, values = sparse_embedding
+
             points.append(
                 PointStruct(
                     id=chunk.chunk_id,
-                    vector=embedding,
+                    vector={
+                        "dense": dense_embedding,
+                        "splade": SparseVector(
+                            indices=indices,
+                            values=values,
+                        ),
+                    },
                     payload={
                         "chunk_id": chunk.chunk_id,
                         "document_id": chunk.document_id,
