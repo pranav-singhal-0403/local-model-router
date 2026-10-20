@@ -389,6 +389,29 @@ Open `http://localhost:8000/docs` for the interactive API specification.
 Back up the PostgreSQL and Qdrant volumes, along with any local document
 storage, if the indexed corpus and chat history must be recoverable.
 
+## Evaluation 
+
+To evaluate the chatbot application, use the uploaded dataset in the `utils\` folder.
+
+commands to run in a new terminal:
+```
+python -m utils.evaluate_retrieval
+```
+
+This would run the evaluation and print metrics in the terminal in the format:
+```
+AVERAGE METRICS
+{
+  "recall_at_5":,
+  "recall_at_10":,
+  "mrr":,
+  "ndcg_at_5":,
+  "average_retrieval_latency_ms":
+}
+```
+
+**Note:** The file will also store metrics in a summary json in the same directory for in-depth analysis.
+
 ## Troubleshooting
 
 ### Backend cannot connect to PostgreSQL
