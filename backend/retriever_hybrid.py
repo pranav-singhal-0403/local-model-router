@@ -1,4 +1,5 @@
 
+from concurrent.futures import ThreadPoolExecutor
 from typing import List
 
 from backend.models import RetrievedChunk
@@ -21,16 +22,15 @@ class HybridRetriever:
         self.vector_store = vector_store
         self.rrf_k = rrf_k
         self.candidate_limit = candidate_limit
+        self.executor = ThreadPoolExecutor(max_workers=2)
 
     @staticmethod
     def deduplicate(
         chunks: List[RetrievedChunk],
     ) -> List[RetrievedChunk]:
         unique = {}
-
         for chunk in chunks:
             unique.setdefault(chunk.chunk_id, chunk)
-
         return list(unique.values())
 
     def retrieve(
@@ -40,19 +40,19 @@ class HybridRetriever:
     ) -> List[RetrievedChunk]:
         candidate_limit = max(self.candidate_limit, top_k)
 
-        dense_results = self.deduplicate(
-            self.dense_retriever.retrieve(
-                query=query,
-                top_k=candidate_limit,
-            )
+        dense_future = self.executor.submit(
+            self.dense_retriever.retrieve,
+            query=query,
+            top_k=candidate_limit,
+        )
+        splade_future = self.executor.submit(
+            self.splade_retriever.retrieve,
+            query=query,
+            top_k=candidate_limit,
         )
 
-        splade_results = self.deduplicate(
-            self.splade_retriever.retrieve(
-                query=query,
-                top_k=candidate_limit,
-            )
-        )
+        dense_results = self.deduplicate(dense_future.result())
+        splade_results = self.deduplicate(splade_future.result())
 
         fused_scores = {}
         chunks_by_id = {}
