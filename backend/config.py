@@ -3,7 +3,7 @@ import os
 import yaml
 from dotenv import load_dotenv
 
-load_dotenv(override=False)
+load_dotenv(override=True)
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = PROJECT_ROOT / "config" / "config.yml"

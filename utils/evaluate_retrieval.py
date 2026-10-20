@@ -6,6 +6,12 @@ from pathlib import Path
 from backend.app_state import create_app_state
 from utils.evaluation_metrics import evaluate_retrieval, aggregate_metrics
 
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(message)s",
+) 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATASET_PATH = PROJECT_ROOT / "utils" / "evaluation_dataset.json"
