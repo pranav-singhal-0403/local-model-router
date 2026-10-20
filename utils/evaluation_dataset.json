@@ -1,0 +1,710 @@
+{
+  "dataset_name": "human_foods_nutritive_value_rag_evaluation",
+  "version": 1,
+  "cases": [
+    {
+      "id": "human_foods_001",
+      "query": "What ranges of water content does the book give for natural vegetables, meats, and prepared cereal products?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 23
+        }
+      ],
+      "expected_answer": "Natural vegetables may contain as much as 95% water; meats contain about 40–60% or more; prepared cereal products such as flour, corn meal, and oatmeal contain about 7–14%.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_002",
+      "query": "How does the book define dry matter, and how is its percentage calculated?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 23
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 24
+        }
+      ],
+      "expected_answer": "Dry matter is the food material remaining after water is removed. Its percentage is calculated by subtracting the percentage of water from 100.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_003",
+      "query": "What is ash in food analysis, and how is it obtained?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 24
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 25
+        }
+      ],
+      "expected_answer": "Ash, or mineral matter, is the portion left after the dry matter is ignited at the lowest temperature needed for complete combustion.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_004",
+      "query": "Which mineral elements does the book identify as most essential for plant growth?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 25
+        }
+      ],
+      "expected_answer": "The book lists potassium, calcium, magnesium, iron, phosphorus, and sulphur as the elements most essential for plant growth.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_005",
+      "query": "How does the book distinguish nitrogenous from non-nitrogenous organic compounds?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 26
+        }
+      ],
+      "expected_answer": "It classifies compounds by whether they contain nitrogen: nitrogenous compounds contain nitrogen, while non-nitrogenous compounds do not.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_006",
+      "query": "What role does cellulose play in plant structure, and why can it limit nutrient availability?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 26
+        }
+      ],
+      "expected_answer": "Cellulose forms the basis of plant cell structure. When hard and dense, it can resist digestion and mechanically enclose other nutrients, making them less available.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_007",
+      "query": "How do starch granules from wheat, corn, and potatoes differ according to the book?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 27
+        }
+      ],
+      "expected_answer": "Wheat starch granules are described as circular, corn starch as somewhat angular, and potato starch granules as among the largest.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_008",
+      "query": "Why does cooking starchy foods generally make starch more accessible to digestion?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 27
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 28
+        }
+      ],
+      "expected_answer": "Heating partly ruptures and disintegrates starch granules; with water, starch also undergoes hydration and forms more soluble products that digestive ferments can act on more readily.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_009",
+      "query": "What is nitrogen-free extract, and how is it determined in food analysis?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 28
+        }
+      ],
+      "expected_answer": "It groups carbohydrates other than cellulose, such as starch, sugar, and pectin. It is calculated by subtracting water, ash, crude fiber, crude protein, and ether extract from 100.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_010",
+      "query": "Why does fat provide more heat than an equal weight of starch, according to the book?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 29
+        }
+      ],
+      "expected_answer": "Fat contains a greater proportion of carbon and less oxygen than starch; the book states that a gram of fat produces about 2¼ times as much heat as a gram of starch.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_011",
+      "query": "What functions do organic acids serve in foods, according to the text?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 29
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 30
+        }
+      ],
+      "expected_answer": "They contribute characteristic taste and palatability and may encourage secretion of digestive fluids, but the book says they have no direct nutritive value.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_012",
+      "query": "How does the book distinguish essential oils from fixed fats or oils?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 30
+        }
+      ],
+      "expected_answer": "Essential oils are volatile and evaporate without leaving a permanent residue, whereas fixed fats are practically non-volatile.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_013",
+      "query": "Why does the book say nitrogenous and non-nitrogenous compounds must be properly combined in the diet?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 30
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 31
+        }
+      ],
+      "expected_answer": "Non-nitrogenous compounds alone cannot sustain life because they lack nitrogen needed to form proteid material; nitrogenous compounds alone also cannot sustain life for long. The book emphasizes their mutual dependence.",
+      "category": "multi_hop"
+    },
+    {
+      "id": "human_foods_014",
+      "query": "What approximate percentage of nitrogen does the book say proteins contain, and what conversion factor is used to estimate crude protein?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 32
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 33
+        }
+      ],
+      "expected_answer": "The book says proteins contain about 16% nitrogen. It describes multiplying total organic nitrogen by 6.25 to estimate crude protein, while noting that the factor is not suitable for every food.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_015",
+      "query": "What tissue-building roles does the book attribute to protein?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 33
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 34
+        }
+      ],
+      "expected_answer": "Protein supplies material for building new muscular tissue and repairing worn tissue, and it forms part of vital fluids such as blood and digestive fluids. It can also provide heat and energy.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_016",
+      "query": "How does the book describe the effect of heating on albumins?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 32
+        }
+      ],
+      "expected_answer": "Albumins are described as soluble in water and coagulated by heat at about 157°–161°F.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_017",
+      "query": "What general chemical changes does the book discuss when foods are burned?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 25
+        }
+      ],
+      "expected_answer": "It says carbon combines with oxygen to form carbon dioxide, hydrogen forms water, sulphur forms sulphur dioxide, and nitrogen forms oxides of nitrogen and ammonia.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_018",
+      "query": "What changes may pectin undergo as fruit ripens or vegetables cook?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 27
+        }
+      ],
+      "expected_answer": "Pectin bodies that may be insoluble in early growth become more soluble and digestible during fruit ripening and the cooking of vegetables.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_019",
+      "query": "What is the book's explanation for the use of cooking in relation to digestion beyond simply making food hot?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 36
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 37
+        }
+      ],
+      "expected_answer": "Cooking produces chemical, physical, and bacteriological changes; these can soften or alter food structures and make some components more digestible. The chapter also discusses the effects of heat on plant and animal tissues.",
+      "category": "multi_hop"
+    },
+    {
+      "id": "human_foods_020",
+      "query": "What kinds of changes during cooking does the book group as chemical, physical, and bacteriological?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 36
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 37
+        }
+      ],
+      "expected_answer": "The book discusses chemical changes to components such as cellulose, starch, sugar, pectin, fats, and proteids; physical changes caused by heat in plant and animal tissues; and bacteriological changes involving useful or harmful organisms.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_021",
+      "query": "What broad nutrient characteristic does the book associate with fruits?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 47
+        }
+      ],
+      "expected_answer": "The book describes fruits as containing substantial water and discusses their sugars, acids, flavors, and uses in the diet; exact composition varies by fruit.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_022",
+      "query": "How does drying affect fruit as a food product, according to the book?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 51
+        }
+      ],
+      "expected_answer": "The book notes that drying changes the composition of fruit sold for market; removing water concentrates the remaining material compared with fresh fruit.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_023",
+      "query": "Which foods does the book classify as legumes, and which item is included despite commonly being treated as a nut?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 61
+        }
+      ],
+      "expected_answer": "It lists peas, beans, lentils, and peanuts as legumes. Peanuts are included in the legumes discussion even though they are commonly treated as nuts in everyday usage.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_024",
+      "query": "What does the book say about the digestibility of milk?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 68
+        }
+      ],
+      "expected_answer": "It describes milk as one of the most completely digested foods, with about 95% digestibility.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_025",
+      "query": "What is the distinction between pasteurized milk and certified milk as topics in the book?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 67
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 69
+        }
+      ],
+      "expected_answer": "The chapter treats sanitary condition, certified milk, and pasteurized milk as separate topics. It discusses pasteurization as a treatment and certified milk in relation to sanitary standards; it does not provide a modern regulatory definition.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_026",
+      "query": "How does the book explain why the composition of meat varies?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 77
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 78
+        }
+      ],
+      "expected_answer": "It discusses differences in mineral matter, fat, protein, and non-nitrogenous compounds, and notes that meat composition varies with the kind and condition of the animal and the tissue being considered.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_027",
+      "query": "What factors does the book associate with the texture and toughness of meat?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 81
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 82
+        }
+      ],
+      "expected_answer": "The meat chapter discusses texture and toughness in connection with the structure of the tissue and the effects of preparation and cooking.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_028",
+      "query": "Why does the book consider cereals important in the diet?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 90
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 96
+        }
+      ],
+      "expected_answer": "It discusses cereals as common, economical foods that supply nutrients—especially carbohydrates—and compares their cost and nutritive value.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_029",
+      "query": "What is the book's stated reason wheat is particularly adapted to bread making?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 99
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 100
+        }
+      ],
+      "expected_answer": "The book attributes wheat's suitability for bread making to the properties of its flour, particularly gluten, which gives dough useful physical properties.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_030",
+      "query": "What is gluten's relevance to bread making in the book?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 105
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 106
+        }
+      ],
+      "expected_answer": "Gluten is discussed as a factor in bread making because its physical properties help determine how flour behaves in dough and baking.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_031",
+      "query": "What role does yeast play in bread making according to the book?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 113
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 114
+        }
+      ],
+      "expected_answer": "The book explains that yeast acts during fermentation, producing carbon dioxide gas and alcohol; the gas helps leaven the dough.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_032",
+      "query": "How does the book distinguish leavened bread from unleavened bread?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 113
+        }
+      ],
+      "expected_answer": "Leavened bread is made using a leavening process such as yeast fermentation; unleavened bread is made without that leavening process.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_033",
+      "query": "What two materials does the book say all baking powders contain at minimum?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 129
+        }
+      ],
+      "expected_answer": "The book says baking powders contain at least two materials: one that acts as an acid and another that supplies an alkaline component to react with it.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_034",
+      "query": "How does the book define vinegar in terms of its production?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 133
+        }
+      ],
+      "expected_answer": "Vinegar is described as a dilute solution of acetic acid produced through fermentation-related chemical changes.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_035",
+      "query": "What does the book say spices and condiments contribute to food?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 133
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 136
+        }
+      ],
+      "expected_answer": "They contribute characteristic flavors and are used in food preparation; the book also discusses their possible effects on digestion and their role alongside natural flavors.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_036",
+      "query": "What topics does the book cover when comparing tea and coffee?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 139
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 141
+        }
+      ],
+      "expected_answer": "It discusses their composition, adulteration, and physiological or food properties, and includes topics such as chicory in coffee and differences between black and green tea.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_037",
+      "query": "How does the book define digestibility as applied to foods?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 145
+        }
+      ],
+      "expected_answer": "The book treats digestibility as the extent to which food nutrients are digested and made available to the body, and discusses determining it through digestion experiments and coefficients.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_038",
+      "query": "What factors does the book list as influencing digestion?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 145
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 151
+        }
+      ],
+      "expected_answer": "It discusses the amount and preparation of food, the mechanical condition of food, mastication, palatability, physiological properties, individuality, and psychological factors.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_039",
+      "query": "How does the book propose comparing two foods for nutritive value when their prices differ?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 154
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 158
+        }
+      ],
+      "expected_answer": "It recommends considering both cost and nutrient content, comparing the nutrients obtainable for a given sum rather than judging value by market price alone.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_040",
+      "query": "What is the purpose of dietary studies in the book?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 167
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 168
+        }
+      ],
+      "expected_answer": "Dietary studies examine the foods and quantities consumed and are intended to help evaluate and improve diets, including their cost, adequacy, and relation to mental and physical vigor.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_041",
+      "query": "What does the book mean by a balanced ration?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 178
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 180
+        }
+      ],
+      "expected_answer": "The chapter describes a balanced ration as one that supplies nutrients in suitable amounts and proportions for the needs and work of the person being fed.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_042",
+      "query": "Why does the book call water one of the most essential food materials?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 183
+        }
+      ],
+      "expected_answer": "It states that water is essential and enters into the composition of the body; the chapter discusses its importance, impurities, and relation to health.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_043",
+      "query": "What types of impurities in water does the book distinguish?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 183
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 185
+        }
+      ],
+      "expected_answer": "The chapter distinguishes mineral impurities and organic impurities, and also discusses bacterial content and the interpretation of water analyses.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_044",
+      "query": "What methods of water improvement does the book discuss?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 187
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 188
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 189
+        }
+      ],
+      "expected_answer": "It discusses boiling, filtration, and chemical purification, along with natural purification and the improvement of water supplies.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_045",
+      "query": "Why does the book say ordinary chemical analysis may not reveal every food-safety problem?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 192
+        }
+      ],
+      "expected_answer": "An ordinary chemical analysis measures nutrients such as protein, carbohydrates, and fats, but may not reveal injurious microorganisms or other sanitary problems.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_046",
+      "query": "What precautions does the book recommend to reduce contamination while handling and storing food?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 193
+        },
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 194
+        }
+      ],
+      "expected_answer": "It recommends protecting food from impure air and dust, storing it in clean, sanitary, ventilated places, and taking care during handling to prevent contamination.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_047",
+      "query": "How does the book describe the effect of refrigeration on food changes?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 197
+        }
+      ],
+      "expected_answer": "It says low temperature makes insoluble or unorganized ferments inactive, but chemical changes may still continue, so refrigeration does not stop every change in food.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_048",
+      "query": "What is the stated purpose of the laboratory practice section?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 201
+        }
+      ],
+      "expected_answer": "Its aim is to give students practical familiarity with the composition and uses of foods and with methods for examining and testing food materials.",
+      "category": "factual_lookup"
+    },
+    {
+      "id": "human_foods_049",
+      "query": "In the flour-water experiment, what is the basic method used to determine water content?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 206
+        }
+      ],
+      "expected_answer": "A weighed dish and a weighed sample of flour are dried in an oven; the loss in weight is used to determine the water content.",
+      "category": "procedural"
+    },
+    {
+      "id": "human_foods_050",
+      "query": "Which experiment in the laboratory section is intended to examine starch grains under the influence of heat?",
+      "relevant_sources": [
+        {
+          "document_name": "Human Foods and Their Nutritive Value.pdf",
+          "page_number": 208
+        }
+      ],
+      "expected_answer": "The section includes an experiment on the influence of heat on potato starch grains, examining changes in the grains.",
+      "category": "factual_lookup"
+    }
+  ]
+}
