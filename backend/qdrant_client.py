@@ -1,15 +1,20 @@
+
 from typing import List
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
     Distance,
-    PointStruct,
-    VectorParams,
     FieldCondition,
     Filter,
     FilterSelector,
     MatchValue,
+    PointStruct,
+    SparseVector,
+    SparseVectorParams,
+    SparseIndexParams,
+    VectorParams,
 )
+
 
 from backend.config import (
     QDRANT_COLLECTION,
@@ -19,18 +24,15 @@ from backend.config import (
 
 
 class QdrantVectorStore:
-
     def __init__(self):
         self.client = QdrantClient(
             host=QDRANT_HOST,
             port=QDRANT_PORT,
         )
-
         self.collection_name = QDRANT_COLLECTION
 
     def collection_exists(self) -> bool:
         collections = self.client.get_collections()
-
         return any(
             collection.name == self.collection_name
             for collection in collections.collections
@@ -42,19 +44,26 @@ class QdrantVectorStore:
 
         self.client.create_collection(
             collection_name=self.collection_name,
-            vectors_config=VectorParams(
-                size=vector_size,
-                distance=Distance.COSINE,
-            ),
+            vectors_config={
+                "dense": VectorParams(
+                    size=vector_size,
+                    distance=Distance.COSINE,
+                )
+            },
+            sparse_vectors_config={
+                "splade": SparseVectorParams(
+                    index=SparseIndexParams(
+                        on_disk=False,
+                    )
+                )
+            },
         )
 
-    def upsert(
-        self,
-        points: List[PointStruct],
-    ):
+    def upsert(self, points: List[PointStruct]):
         self.client.upsert(
             collection_name=self.collection_name,
             points=points,
+            wait=True,
         )
 
     def search(
@@ -65,6 +74,24 @@ class QdrantVectorStore:
         return self.client.query_points(
             collection_name=self.collection_name,
             query=query_vector,
+            using="dense",
+            limit=limit,
+            with_payload=True,
+        ).points
+
+    def search_sparse(
+        self,
+        indices: List[int],
+        values: List[float],
+        limit: int = 30,
+    ):
+        return self.client.query_points(
+            collection_name=self.collection_name,
+            query=SparseVector(
+                indices=indices,
+                values=values,
+            ),
+            using="splade",
             limit=limit,
             with_payload=True,
         ).points
@@ -108,7 +135,6 @@ class QdrantVectorStore:
                 document["chunks"] += 1
 
                 page_number = payload.get("page_number")
-
                 if page_number is not None:
                     document["pages"].add(page_number)
 
@@ -118,7 +144,6 @@ class QdrantVectorStore:
             offset = next_offset
 
         result = []
-
         for document in documents.values():
             document["pages"] = len(document["pages"])
             result.append(document)
